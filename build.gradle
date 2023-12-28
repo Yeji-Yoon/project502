@@ -48,7 +48,7 @@ dependencies {
 
 
 }
-
+//람다식
 tasks.named('test') {
 	useJUnitPlatform()
 }
