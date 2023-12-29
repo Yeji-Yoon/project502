@@ -1,8 +1,18 @@
 <!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{front/layouts/main}">
+<main layout:fragment="content">
+    <th:block th:replace="~{error/_content::common}"></th:block>
+</main>
+</html>
+
+<!--
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymelaf.org">
 <h1 th:text="${status}"></h1>
 <h1 th:text="${path}"></h1>
 <h1 th:text="${message}"></h1>
 <h1 th:text="${timestamp}"></h1>
-
 </html>
+-->
