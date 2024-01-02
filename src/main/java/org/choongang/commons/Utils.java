@@ -6,11 +6,23 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+import java.util.ResourceBundle;
+
 @Component
 @RequiredArgsConstructor
 public class Utils {
     private final HttpServletRequest request;
     private final HttpSession session;
+
+    private static final ResourceBundle commonsBundle;
+    private static final ResourceBundle validationsBundle;
+    private static final ResourceBundle errorsBundle;
+
+    static {//메시지를 타입에 따라 가져옴
+        commonsBundle = ResourceBundle.getBundle("messages.commons");
+        validationsBundle = ResourceBundle.getBundle("messages.validations");
+        errorsBundle = ResourceBundle.getBundle("messages.errors");
+    }
 
 //모바일 장비를 보고 확인
 public boolean isMobile() {
@@ -33,5 +45,24 @@ public boolean isMobile() {
         String prefix = isMobile() ? "mobile/" : "front/";
 
         return prefix + path;
+    }
+
+    public static String getMessage(String code, String type) {
+        //메서드를 만들지 않아도 조회가능하게 static 사용
+        type = StringUtils.hasText(type) ?type: "validations";
+
+        ResourceBundle bundle = null;
+        if(type.equals("commons")) {
+            bundle = commonsBundle;
+        }else if(type.equals("errors")) {
+            bundle = errorsBundle;
+        }else {
+            bundle= validationsBundle;
+        }
+
+        return bundle.getString(code);
+    }
+    public static String getMessage(String code) {
+        return getMessage(code,null);
     }
 }

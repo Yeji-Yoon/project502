@@ -14,13 +14,13 @@ public interface MemberRepository extends JpaRepository<Member,Long>, QuerydslPr
 
     default boolean existsByEmail(String email) {
         QMember member = QMember.member;
+
         return exists(member.email.eq(email));
     }
 
-    default boolean existsUserId(String userId) {
+    default boolean existsByUserId(String userId) {
         QMember member = QMember.member;
 
         return exists(member.userId.eq(userId));
-
     }
 }

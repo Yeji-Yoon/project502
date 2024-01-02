@@ -30,7 +30,7 @@ public interface PasswordValidator {
      * @return
      */
     default boolean numberCheck(String password) {
-        return password.matches(".*\\d+.*")
+        return password.matches(".*\\d+.*");
 
     }
 
