@@ -34,9 +34,12 @@
 <!--<main layout:fragment="content"></main>-->
 <main>
     <aside th:replace="~{admin/outlines/_side::menus}"></aside>
-    <section layout:fragment="content"></section>
+    <section>
+        <nav th:replace="~{admin/outlines/_submenu::submenus}"></nav>
+        <section layout:fragment="content"></section>
+    </section>
 </main>
 
-<footer th:replace="~{admin/outlines/footer::common}"></footer>
+<!-- <footer th:replace="~{admin/outlines/footer::common}"></footer>-->
 </body>
 </html>
