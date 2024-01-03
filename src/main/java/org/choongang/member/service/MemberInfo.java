@@ -23,12 +23,12 @@ public class MemberInfo implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
     //인가에 관한 권한
-        return null;
+        return authorities;
     }
 
     @Override
     public String getPassword() {//비번
-        return null;
+        return password;
     }
 
     @Override

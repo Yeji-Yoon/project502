@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 public class SecurityConfig {
@@ -15,7 +16,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         //바뀔수 있는 부분은 우리가 알려줘야함.
-        /*인증 설정S - 로그인*/
+        /*인증 설정S - 로그인, 로그아웃*/
         http.formLogin(f -> {
             f.loginPage("/member/login")
                     .usernameParameter("username")
@@ -26,7 +27,17 @@ public class SecurityConfig {
                     .failureHandler(new LoginFailureHandler());
 
         });//도메인 특허 관련 기술
-        /*인증 설정 E = 로그인*/
+
+        http.logout(c -> {
+            //이동할 주소
+            c.logoutRequestMatcher(new AntPathRequestMatcher("/member/logout")).logoutSuccessUrl("/member/login");
+
+        });
+
+        /*인증 설정 E = 로그인, 로그아웃*/
+
+
+
         return http.build();
     }
 
