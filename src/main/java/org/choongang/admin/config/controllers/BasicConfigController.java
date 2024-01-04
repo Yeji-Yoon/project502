@@ -19,7 +19,7 @@ public class BasicConfigController implements ExceptionProcessor {
     private final ConfigSaveService saveService;
     private final ConfigInfoService infoService;
 
-
+//model : 뷰에서 사용할 데이터
     @ModelAttribute("menuCode")
     public String getMenuCode() {
         return "config";

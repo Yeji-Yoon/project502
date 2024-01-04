@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 
 @ControllerAdvice(value = "org.choongang")
 @RequiredArgsConstructor
-public class BasicConfigAdvice {
+public class BasicConfigAdvice {//AOP(ControllerAdvice)구현체
     private final ConfigInfoService infoService;
 
 

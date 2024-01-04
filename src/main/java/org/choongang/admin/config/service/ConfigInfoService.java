@@ -39,10 +39,10 @@ public class ConfigInfoService {
         try {
             T data = null;
             if(clazz == null) {//TypeReference로 처리
-                data = om.readValue(jsonString, new TypeReference<T>() { });
+                data = om.readValue(jsonString, new TypeReference<T>() { });//문자열로 바꿈
 
             }else {// Class로 처리
-                data = om.readValue(jsonString,clazz);
+                data = om.readValue(jsonString,clazz);//문자열을 자바객체로 바꿈
             }
             return Optional.ofNullable(null);
         } catch (JsonProcessingException e) {
