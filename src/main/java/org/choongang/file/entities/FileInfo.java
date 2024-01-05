@@ -40,18 +40,18 @@ public class FileInfo extends BaseMember {
     @Column(length = 65)
     private String fileType;
 
-    //썸네일 만들기
+    //편의상 만든 종목
     @Transient
     private String filePath; //서버에 실제 올라간 경로
 
     @Transient
-    private String fileUrl; //브라우저 주소창에 입력해서 접근할수 있는 경로
+    private String fileUrl; //브라우저 주소창에 입력해서 접근할수 있는 경로(
 
     @Transient
-    private List<String> thumbsPath; //썸네일 이미지 경로
+    private List<String> thumbsPath; //썸네일 이미지 경로(삭제할 때)
 
     @Transient
-    private List<String> thumbsUrl; //브라우저 주소창에 입력해서 접근할수 있는 경로
+    private List<String> thumbsUrl; //브라우저 주소창에 입력해서 접근할 수 있는 경로
 
     private boolean done;//글 작성 완료 -> 영구적 보관
 

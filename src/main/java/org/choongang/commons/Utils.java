@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.choongang.admin.config.controllers.BasicConfig;
+import org.choongang.file.service.FileInfoService;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -16,6 +17,7 @@ import java.util.ResourceBundle;
 public class Utils {
     private final HttpServletRequest request;
     private final HttpSession session;
+    private final FileInfoService fileInfoService;
 
     private static final ResourceBundle commonsBundle;
     private static final ResourceBundle validationsBundle;
@@ -105,5 +107,23 @@ public boolean isMobile() {
         int[] data = Arrays.stream(size.replaceAll("\\r","").toUpperCase().split("X")).mapToInt(Integer::parseInt).toArray();
 
         return data;
+    }
+
+    public String printThumb(long seq, int width, int height, String className) {//주로 타임리프내에서 사용
+
+        String[] data = fileInfoService.getThumb(seq,width,height);
+        if(data != null) {
+            String cls = StringUtils.hasText(className) ? "class='" + className + "'":"";
+            String image = String.format("<img src='%s'%s>",data[1], cls);
+
+            return image;
+        }
+
+        return "";
+
+    }
+
+    public String printThumb(long seq, int width, int height) {
+        return printThumb(seq,width,height,null);
     }
 }
