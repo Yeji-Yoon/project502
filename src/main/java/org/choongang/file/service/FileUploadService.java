@@ -28,7 +28,7 @@ public class FileUploadService {//올라간 파일을 리스트로 정리(json�
     private final FileInfoService infoService;
     private final Utils utils;
 
-    public List<FileInfo> upload(MultipartFile[] files, String gid, String location) {
+    public List<FileInfo> upload(MultipartFile[] files, String gid, String location, boolean imageOnly) {
         /**
          * 1. 파일 정보 저장(파일명이 중복하는지 여부)
          * 2. 서버쪽에 파일 업로드 처리
@@ -53,6 +53,11 @@ public class FileUploadService {//올라간 파일을 리스트로 정리(json�
             String extension = fileName.substring(fileName.lastIndexOf("."));
 
             String fileType = file.getContentType();//getcontent : 파일 종류. fileType: 썸네일 추가할 때 사용
+            //이미지만 업로드 하는 경우, 이미지가 아닌 형식을 업로드 배제
+            if(imageOnly && fileType.indexOf("image/") == -1) {
+                continue;
+            }
+
 
             FileInfo fileInfo = FileInfo.builder()
                     .gid(gid)
