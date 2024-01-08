@@ -33,7 +33,8 @@ import java.util.List;
 
     @GetMapping("/{seq}")
     public void delete(@PathVariable("seq") Long seq) {
-        deleteService.delete(seq);
+
+            deleteService.delete(seq);
     }
 
 }
