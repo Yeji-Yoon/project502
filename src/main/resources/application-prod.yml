@@ -11,6 +11,7 @@ spring:
   #데이터베이스 설정
   datasource:
     driverClassName: oracle.jdbc.driver.OracleDriver
+    # 실제 DB서버 주소 넣기
     url: jdbc:oracle:thin:@localhost:1521:xe
     username: PROJECT
     password: _aA123456

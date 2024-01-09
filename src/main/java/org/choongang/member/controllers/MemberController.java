@@ -8,8 +8,13 @@ import org.choongang.member.MemberUtil;
 import org.choongang.member.entities.Member;
 import org.choongang.member.service.JoinService;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequestMapping("/member")
@@ -21,15 +26,14 @@ public class MemberController implements ExceptionProcessor {
     private final MemberUtil memberUtil;
 
     @GetMapping("/join")
-    public String join(@ModelAttribute RequestJoin form){
-
-
+    public String join(@ModelAttribute RequestJoin form, Model model){
+        commonProcess("join",model);
         return utils.tpl("member/join");
     }
 
     @PostMapping("/join")
-    public String joinPs(@Valid RequestJoin form, Errors errors) {
-
+    public String joinPs(@Valid RequestJoin form, Errors errors,Model model) {
+        commonProcess("join", model);
 
         joinService.process(form,errors);
 
@@ -41,9 +45,28 @@ public class MemberController implements ExceptionProcessor {
     }
 
     @GetMapping("/login")
-    public String login() {
+    public String login(Model model) {
+        commonProcess("join",model);
 
         return utils.tpl("member/login");
+    }
+    private void commonProcess(String mode, Model model) {//공통 처리부분
+        mode = StringUtils.hasText(mode) ? mode : "join";
+        String pageTitle = Utils.getMessage("회원가입", "commons");
+
+        List<String> addCommonScript = new ArrayList<>();//공통 자바스크립트
+        List<String> addScript = new ArrayList<>();//프론트 자바 스크립트
+
+        if (mode.equals("login")) {
+            pageTitle = Utils.getMessage("로그인", "commons");
+        }else if(mode.equals("join")) {
+            addCommonScript.add("fileManager");
+            addScript.add("member/form");
+        }
+
+        model.addAttribute("pageTitle", pageTitle);
+        model.addAttribute("addCommonScript",addCommonScript);
+        model.addAttribute("addScript",addScript);
     }
 /*
     @ResponseBody
