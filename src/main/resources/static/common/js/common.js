@@ -10,24 +10,24 @@ commonLib.ajaxLoad = function(method, url, params, responseType) {
     params = params || null;
 
     const token = document.querySelector("meta[name='_csrf']").content;
-    const tokenHeader = document.querySelector("meta[name='_csrf_header']").content;
+        const tokenHeader = document.querySelector("meta[name='_csrf_header']").content;
 
 
     return new Promise((resolve, reject) => {//resolve : 성공시 데이터 넘김 reject : 실패시 데이터 넘김
-const xhr = new XMLHttpRequest();
+        const xhr = new XMLHttpRequest();
 
-        xhr.open(method, url);
-        xhr.setRequestHeader(tokenHeader, token);
+                xhr.open(method, url);
+                xhr.setRequestHeader(tokenHeader, token);
 
-        xhr.send(params); // 요청 body에 실릴 데이터 키=값&키=값& .... FormData 객체 (POST, PATCH, PUT)
+                xhr.send(params); // 요청 body에 실릴 데이터 키=값&키=값& .... FormData 객체 (POST, PATCH, PUT)
 
-        xhr.onreadystatechange = function() {
-            if (xhr.status == 200 && xhr.readyState == XMLHttpRequest.DONE) {
-                const resData = (responseType && responseType.toLowerCase() == 'json') ? JSON.parse(xhr.responseText) : xhr.responseText;
+            xhr.onreadystatechange = function() {
+                if (xhr.status == 200 && xhr.readyState == XMLHttpRequest.DONE) {
+                    const resData = (responseType && responseType.toLowerCase() == 'json') ? JSON.parse(xhr.responseText) : xhr.responseText;
 
-                resolve(resData); // 성공시 응답 데이터
-            }
-        };
+                    resolve(resData); // 성공시 응답 데이터
+                }
+            };
 
         xhr.onabort = function(err) {
                     reject(err); // 중단 시
