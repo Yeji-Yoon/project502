@@ -1,6 +1,7 @@
 package org.choongang.member.service;
 
 import lombok.RequiredArgsConstructor;
+import org.choongang.file.service.FileUploadService;
 import org.choongang.member.Authority;
 import org.choongang.member.controllers.JoinValidator;
 import org.choongang.member.controllers.RequestJoin;
@@ -22,6 +23,7 @@ public class JoinService {
     private final AuthoritiesRepostory authoritiesRepostory;
     private final JoinValidator validator;
     private final PasswordEncoder encoder;
+    private final FileUploadService uploadService;
 
     public void process(RequestJoin form, Errors errors) {//커먼드 객체
         validator.validate(form,errors);
@@ -49,6 +51,9 @@ public class JoinService {
         authorities.setMember(member);
         authorities.setAuthority(Authority.USER);
         authoritiesRepostory.saveAndFlush(authorities);
+
+        //파일 업로드 완료 처리
+        uploadService.processDone(form.getGid());
     }
 
     public void process(Member member) {

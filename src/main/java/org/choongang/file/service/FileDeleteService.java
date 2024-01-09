@@ -27,14 +27,17 @@ public class FileDeleteService {
     public void delete(Long seq) {
         FileInfo data = infoService.get(seq);
 
-        //파일 삭제 권한 체크
+        // 파일 삭제 권한 체크
         Member member = memberUtil.getMember();
         String createdBy = data.getCreatedBy();
-        if(StringUtils.hasText(createdBy)&&(memberUtil.isLogin() || (!memberUtil.isAdmin()) && StringUtils.hasText(createdBy) && !createdBy.equals(member.getUserId()))) {
-            throw new UnAuthorizedException(Utils.getMessage("Not.your.file","errors"));
+        if (StringUtils.hasText(createdBy) && (
+                !memberUtil.isLogin() || (!memberUtil.isAdmin() && StringUtils.hasText(createdBy)
+                        && !createdBy.equals(member.getUserId())))) {
+            throw new UnAuthorizedException(Utils.getMessage("Not.your.file", "errors"));
         }
+
         File file = new File(data.getFilePath());
-        if(file.exists()) file.delete();
+        if (file.exists()) file.delete();
 
         List<String> thumbsPath = data.getThumbsPath();
         if(thumbsPath !=null) {

@@ -128,7 +128,7 @@ public class FileUploadService {//올라간 파일을 리스트로 정리(json�
      * 업로드 처리 완료
      * @param gid
      */
-    public void procssDon(String gid) {
+    public void processDone(String gid) {
         List<FileInfo> files = repository.findByGid(gid);
         if (files == null ) {
             return;

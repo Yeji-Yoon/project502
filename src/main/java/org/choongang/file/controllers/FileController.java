@@ -22,18 +22,12 @@ public class FileController implements ExceptionProcessor {
     private final FileDeleteService deleteService;
     private final FileDownloadService downloadService;
 
-    @GetMapping("/upload")
-    public String upload() {
-
-        return "upload";
-    }
-
     @GetMapping("/delete/{seq}")
     public String delete(@PathVariable("seq") Long seq, Model model) {
 
         deleteService.delete(seq);
 
-        String script = String.format("if (typeof parent.callbackFileDelete == 'function') parent.callbackFileDelete(%d);", seq);
+        String script = String.format("if (typeof parent.callbackFileDelete == 'function') parent.callbackFileDelete(%d);", seq);//파일 삭제 후 할일이 있으면 정의하고 실행
         model.addAttribute("script", script);
 
         return "common/_execute_script";

@@ -74,7 +74,9 @@ public class SecurityConfig {
                 }
             });
         });
-
+        /*인가 설정  E- 접근 통제 */
+        http.headers(c ->c.frameOptions(f ->f.sameOrigin()));
+        //아이프레임이 막혀있기 때문에
         return http.build();
     }
 
