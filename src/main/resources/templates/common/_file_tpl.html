@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<script type="text/html" id="image1_tpl" th:fragment="image1_tpl">
+<!-- 템플릿에 보여주지 않기 위해 script type="text/html"를 씀-->
+    <div class="image_box">
+        <a th:href="@{/file/delete/[seq]}" onclick="return confirm('정말 삭제 하시겟습니까?');">
+            <i class="xi-close"></i>
+        </a>
+        <div class="inner" style="background:url('[imageUrl]'); background-size : cover;"><</div>
+
+    </div>
+
+</script>
+</html>
