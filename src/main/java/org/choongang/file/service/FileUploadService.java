@@ -26,15 +26,24 @@ public class FileUploadService {//올라간 파일을 리스트로 정리(json�
     private final FileProperties fileProperties;
     private final FileInfoRepository repository;
     private final FileInfoService infoService;
+    private final FileDeleteService deleteService;
     private final Utils utils;
 
-    public List<FileInfo> upload(MultipartFile[] files, String gid, String location, boolean imageOnly) {
+    public List<FileInfo> upload(MultipartFile[] files, String gid, String location, boolean imageOnly, boolean singleFile) {
         /**
          * 1. 파일 정보 저장(파일명이 중복하는지 여부)
          * 2. 서버쪽에 파일 업로드 처리
          */
 
         gid = StringUtils.hasText(gid) ? gid : UUID.randomUUID().toString();//랜덤하게 유티크한 아이디를 만들때
+
+        /**
+         * 단일 파일 업로드
+         * gid + location : 기 업로드된 파일 삭제 -> 새로 업로드
+         */
+        if(singleFile) {
+            deleteService.delete(gid, location);
+        }
 
         String uploadPath = fileProperties.getPath(); //파일 업로드 기본 경로
         String thumbPath = uploadPath +"thumbs/";//썸네일 업로드 기본 경로
