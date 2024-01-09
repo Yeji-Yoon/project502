@@ -37,3 +37,6 @@ out/
 .vscode/
 
 application-dev.*
+
+# 어차피 생성되서  깃에 올릴 필요가 없음.
+src/main/generated/
