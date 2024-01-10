@@ -21,7 +21,7 @@ function callbackFileUpload(files) {//올라간 파일 정보를 불러옴
     const domParser = new DOMParser();
     const dom = domParser.parseFromString(html, "text/html");
 
-    const imageTplEl = dom.querySelector(".image_tpl_box");
+    const imageTplEl = dom.querySelector(".image1_tpl_box");
 
      const profileImage = document.getElementById("profile_image");
      profileImage.innerHTML="";
@@ -33,7 +33,7 @@ function callbackFileUpload(files) {//올라간 파일 정보를 불러옴
 * 파일 삭제 후 후속처리 함수
 *@param seq: 파일 등록 번호
 */
-function callbackFileUpload(seq) {
+function callbackFileDelete(seq) {
     const fileEl = document.getElementById(`file_${seq}`);
-    fileEl.parentElment.removeChild(fileEl);
+    fileEl.parentElement.removeChild(fileEl);
 }
