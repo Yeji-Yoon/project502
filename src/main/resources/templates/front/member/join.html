@@ -48,20 +48,20 @@
                 <div class="error" th:each="err : ${#fields.errors('name')}" th:text="${err}"></div>
             </dd>
         </dl>
+
         <dl>
             <dt th:text="#{프로필_이미지}"></dt>
             <dd>
-                <div id = "profile_image"></div>
+                <div id="profile_image"></div>
                 <button type="button" class="upload_files"
                         th:text="#{이미지_업로드}" data-image-only="true" data-single-file="true"></button>
-                <!-- data-location : 이미지 넣게 -->
             </dd>
         </dl>
 
         <div th:text="#{회원가입_약관}"></div>
-        <div class="terms" th:text="${@utils.nl2br(siteConfig.joinTerms)}"></div>
+        <div class="terms" th:utext="${@utils.nl2br(siteConfig.joinTerms)}"></div>
         <div class="terms_agree">
-            <input type="checkbox" name="agree" value="true" id="agree" th:field = "*{agree}">
+            <input type="checkbox" name="agree" value="true" id="agree" th:field="*{agree}">
             <label for="agree" th:text="#{회원가입_약관에_동의합니다.}"></label>
 
             <div class="error" th:each="err : ${#fields.errors('agree')}" th:text="${err}"></div>
@@ -70,5 +70,6 @@
     </form>
 
     <script th:replace="~{common/_file_tpl::image1_tpl}"></script>
+
 </main>
 </html>
