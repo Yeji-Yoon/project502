@@ -1,3 +1,4 @@
+
 /**
 * 파일 업로드 후 후속처리 함수
 * @paramsfiles : 엽로드 한 파일 정보 목록
@@ -11,7 +12,7 @@ function callbackFileUpload(files) {//올라간 파일 정보를 불러옴
 
     let html = document.getElementById("image1_tpl").innerHTML;
 
-    const imageUrl = file.thumbsUrl.length>0 / file.thumbsUrl.pop() : file.fileUrl;
+    const imageUrl = file.thumbsUrl.length>0 ? file.thumbsUrl.pop() : file.fileUrl;
     const seq = file.seq;
 
     html = html.replace(/\[seq\]/g, seq)
