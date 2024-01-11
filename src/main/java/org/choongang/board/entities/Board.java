@@ -12,8 +12,11 @@ import org.choongang.commons.entities.BaseMember;
 @Data @Builder
 @NoArgsConstructor @AllArgsConstructor
 public class Board extends BaseMember {
+
     @Id
     private String bid; // 게시판 아이디
+
+
 
     private String bName; // 게시판 이름
 
