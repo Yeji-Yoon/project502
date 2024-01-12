@@ -1,4 +1,4 @@
-package org.choongang.admin.file;
+package org.choongang.file;
 
 import org.choongang.file.service.FileInfoService;
 import org.junit.jupiter.api.Test;
