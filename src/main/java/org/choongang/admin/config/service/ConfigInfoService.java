@@ -18,6 +18,7 @@ public class ConfigInfoService {
 
     private final ConfigsRepository repository;
 
+    //Optional :  널값 처리
     public <T> Optional<T> get(String code, Class<T> clazz) {//Optional<T> : null값 처리
         return get(code, clazz,null);
     }
