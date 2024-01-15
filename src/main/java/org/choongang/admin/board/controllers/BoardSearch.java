@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class BoardSearch {
     private int page = 1;
-    private int limit = 20;rptl
+    private int limit = 20;
 
     private String bid;
     private String bName;
