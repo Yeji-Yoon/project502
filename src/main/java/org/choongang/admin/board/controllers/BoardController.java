@@ -128,6 +128,8 @@ public class BoardController implements ExceptionProcessor {
         configValidator.validate(config, errors);
 
         if (errors.hasErrors()) {
+
+            errors.getAllErrors().stream().forEach(System.out::println);
             return "admin/board/" + mode;
         }
 

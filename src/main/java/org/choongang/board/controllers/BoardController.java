@@ -103,8 +103,6 @@ public class BoardController implements ExceptionProcessor {
         String mode = form.getMode();
         commonProcess(bid, mode, model);
 
-        commonProcess(form.getBid(),form.getMode(),model);
-
         boardFormValidator.validate(form,errors);
 
         if (errors.hasErrors()) {
