@@ -1,23 +1,23 @@
 
-window.addEventListener("DOMContentLoaded", function(){
-    if(typeof ClassicEditor == 'function' ) {//에디터사용
-        const { loadEditor } == commonLib;
+window.addEventListener("DOMContentLoaded", function() {
+    if (typeof ClassicEditor == 'function') { // 에디터 사용
+        const { loadEditor } = commonLib;
 
-        loadEditor("content",450)
+        loadEditor("content", 450)
             .then(editor => window.editor = editor);
-    }//에디터 사용 E
+    } // 에디터 사용 E
 
-    /* 이미지 본문 추가 이벤트 처리 */
-    const insertImages = document.getElementsByClassName("insert_image");
+    /* 이미지 본문 추가 이벤트 처리 S */
+        const insertImages = document.getElementsByClassName("insert_image");
         for (const el of insertImages) {
             el.addEventListener("click", (e) => insertImage(e.currentTarget.dataset.url));
         }
-    /* 이미지 본문 추가 이벤트 처리 */
-});
+        /* 이미지 본문 추가 이벤트 처리 E */
+    });
 
 // 에디터에 이미지 추가
 function insertImage(source) {
-    editor.execute('insert_image', { source })
+    editor.execute('insertImage', { source })
 }
 
 /**
@@ -59,17 +59,20 @@ function callbackFileUpload(files) {
         targetEl.appendChild(fileBox);
 
         const insertImageEl = fileBox.querySelector(".insert_image");
-                if (insertImageEl) insertImageEl.addEventListener("click", () => insertImage(file.fileUrl));
-            }
 
-            if (imageUrls.length > 0) insertImage(imageUrls);
+        if (insertImageEl) insertImageEl.addEventListener("click", () => insertImage(file.fileUrl));
+    }
+
+    if (imageUrls.length > 0) insertImage(imageUrls);
 
 }
 
 /**
 * 파일 삭제후 후속 처리
+*
 */
-function callbackFileUpload(files) {
+function callbackFileDelete(seq) {
     const fileBox = document.getElementById(`file_${seq}`);
     fileBox.parentElement.removeChild(fileBox);
+
 }
