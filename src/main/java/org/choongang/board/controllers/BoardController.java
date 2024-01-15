@@ -2,11 +2,14 @@ package org.choongang.board.controllers;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.choongang.admin.config.service.ConfigInfoService;
 import org.choongang.board.entities.Board;
 import org.choongang.board.service.config.BoardConfigInfoService;
 import org.choongang.commons.ExceptionProcessor;
 import org.choongang.commons.Utils;
+import org.choongang.file.entities.FileInfo;
+import org.choongang.file.service.FileInfoService;
+import org.choongang.member.MemberUtil;
+import org.choongang.member.entities.Member;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -21,7 +24,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BoardController implements ExceptionProcessor {
     private final BoardConfigInfoService configInfoService;
+    private final FileInfoService fileInfoService;
 
+    private final BoardFormValidator boardFormValidator;
+
+    private final MemberUtil memberUtil;
     private final Utils utils;
 
     private Board board; // 게시판 설정
@@ -62,6 +69,12 @@ public class BoardController implements ExceptionProcessor {
     public String write(@PathVariable("bid") String bid,
                         @ModelAttribute RequestBoard form, Model model) {
         commonProcess(bid,"write",model);
+
+        if(memberUtil.isLogin()) {
+            Member member = memberUtil.getMember();
+            form.setPoster(member.getName());
+        }
+
         return utils.tpl("board/write");
     }
 
@@ -92,7 +105,14 @@ public class BoardController implements ExceptionProcessor {
 
         commonProcess(form.getBid(),form.getMode(),model);
 
+        boardFormValidator.validate(form,errors);
+
         if (errors.hasErrors()) {
+            String gid = form.getGid();
+
+            List<FileInfo> editorImages = fileInfoService.getList(gid,"editor");
+            List<FileInfo> attachFiles = fileInfoService.getList(gid, "attach");
+
             return utils.tpl("board/" + mode);
         }
 
