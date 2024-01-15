@@ -6,7 +6,7 @@
     <input type="hidden" name="bid" th:field = "*{bid}">
     <input type="hidden" name="gid" th:field = "*{gid}">
     <div class = "error global" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></div>
-    <dl th:if="${!#strings.isEmpty(board.category}">
+    <dl th:if="${!#strings.isEmpty(board.category)}">
 
     </dl>
 
@@ -62,10 +62,12 @@
     <dl th:if="${board.useUploadFile}">
         <dt th:text="#{파일 첨부}"></dt>
         <dd>
-            <button type="button" class="upload_files" data-location="attach" th:text="#{파일 선택}"></button>
-            <div class="uploaded_files" id="attach_files"></div>
-            <th:block th:if="*{attachFiles != null && !attachFiles.isEmpty()}" th:each="item : *{attachFiles}">
-                <th:block th:replace="~{common/_attach_files::item}"></th:block>
+            <button type="button" class="upload_files" data-location="attach" th:text="#{파일선택}"></button>
+            <div class="uploaded_files" id="attach_files">
+                <th:block th:if="*{attachFiles != null && !attachFiles.isEmpty()}" th:each="item : *{attachFiles}">
+                    <th:block th:replace="~{common/_attach_file::item}"></th:block>
+                </th:block>
+            </div>
         </dd>
     </dl>
     <script th:replace="~{common/_file_tpl::attach_tpl}"></script>

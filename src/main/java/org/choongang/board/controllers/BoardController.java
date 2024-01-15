@@ -164,7 +164,7 @@ public class BoardController implements ExceptionProcessor {
             addScript.add("board/form");
 
             pageTitle += " ";
-            pageTitle += mode.equals("update") ? Utils.getMessage("글 수정","commons") : Utils.getMessage("글 쓰기","commons");
+            pageTitle += mode.equals("update") ? Utils.getMessage("글수정","commons") : Utils.getMessage("글쓰기","commons");
 
         }
 
