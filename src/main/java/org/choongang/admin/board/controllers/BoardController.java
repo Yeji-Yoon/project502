@@ -4,9 +4,13 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.choongang.admin.menus.Menu;
 import org.choongang.admin.menus.MenuDetail;
+import org.choongang.board.entities.Board;
+import org.choongang.board.service.config.BoardConfigDeleteService;
 import org.choongang.board.service.config.BoardConfigInfoService;
 import org.choongang.board.service.config.BoardConfigSaveService;
 import org.choongang.commons.ExceptionProcessor;
+import org.choongang.commons.ListData;
+import org.choongang.commons.Pagination;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -23,6 +27,7 @@ public class BoardController implements ExceptionProcessor {
 
     private final BoardConfigSaveService configSaveService;
     private final BoardConfigInfoService configInfoService;
+    private final BoardConfigDeleteService configDeleteService;
 
     private final BoardConfigValidator configValidator;
 
@@ -42,11 +47,46 @@ public class BoardController implements ExceptionProcessor {
      * @return
      */
     @GetMapping
-    public String list(Model model) {
+    public String list(@ModelAttribute BoardSearch search, Model model) {
         commonProcess("list", model);
+
+        ListData<Board> data = configInfoService.getList(search);
+
+        List<Board> items = data.getItems();
+        Pagination pagination = data.getPagination();
+
+        model.addAttribute("items", items);
+        model.addAttribute("pagination", pagination);
 
         return "admin/board/list";
     }
+
+    /**
+     * 게시판 목록 - 수정
+     *
+     * @param chks
+     * @return
+     */
+    @PatchMapping
+    public String editList(@RequestParam("chk") List<Integer> chks, Model model) {
+        commonProcess("list", model);
+
+        configSaveService.saveList(chks);
+
+        model.addAttribute("script", "parent.location.reload()");
+        return "common/_execute_script";
+    }
+
+    @DeleteMapping
+    public String deleteList(@RequestParam("chk") List<Integer> chks, Model model) {
+        commonProcess("list", model);
+
+        configDeleteService.deleteList(chks);
+
+        model.addAttribute("script", "parent.location.reload();");
+        return "common/_execute_script";
+    }
+
 
     /**
      * 게시판 등록

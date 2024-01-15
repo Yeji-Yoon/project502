@@ -4,12 +4,19 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.choongang.admin.config.entities.Configs;
 import org.choongang.admin.config.repositories.ConfigsRepository;
+import org.choongang.board.entities.Board;
+import org.choongang.commons.Utils;
+import org.choongang.commons.exceptions.AlertException;
+import org.choongang.file.service.FileUploadService;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -17,7 +24,11 @@ import java.util.Optional;
 public class ConfigInfoService {
 
     private final ConfigsRepository repository;
+    private final FileUploadService fileUploadService;
+    private final HttpServletRequest request;
 
+
+    //Optional :  널값 처리
     public <T> Optional<T> get(String code, Class<T> clazz) {//Optional<T> : null값 처리
         return get(code, clazz,null);
     }
@@ -49,6 +60,5 @@ public class ConfigInfoService {
             e.printStackTrace();
             return Optional.ofNullable(null);
         }
-
     }
 }

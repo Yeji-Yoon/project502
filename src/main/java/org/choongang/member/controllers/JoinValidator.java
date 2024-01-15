@@ -50,7 +50,10 @@ public class JoinValidator implements Validator, PasswordValidator {
         if (StringUtils.hasText(password) && StringUtils.hasText(confirmPassword)
                 && !password.equals(confirmPassword)) {
             errors.rejectValue("confirmPassword", "Mismatch.password");
+
         }
+
+
     }
 
 

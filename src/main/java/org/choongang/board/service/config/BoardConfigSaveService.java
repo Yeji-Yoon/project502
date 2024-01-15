@@ -4,16 +4,22 @@ import lombok.RequiredArgsConstructor;
 import org.choongang.admin.board.controllers.RequestBoardConfig;
 import org.choongang.board.entities.Board;
 import org.choongang.board.repositories.BoardRepository;
+import org.choongang.commons.Utils;
+import org.choongang.commons.exceptions.AlertException;
 import org.choongang.file.service.FileUploadService;
 import org.choongang.member.Authority;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class BoardConfigSaveService {//추가도 하지만 수정도 같이 함.
     private final BoardRepository boardRepository;
     private final FileUploadService fileUploadService;
+    private final Utils utils;
 
     public void save(RequestBoardConfig form) {
         String bid = form.getBid();
@@ -58,5 +64,22 @@ public class BoardConfigSaveService {//추가도 하지만 수정도 같이 함.
 
         // 파일 업로드 완료 처리 파일. 올라갔던 목록이 유지
         fileUploadService.processDone(board.getGid());
+    }
+
+    public void saveList(List<Integer> chks) {
+        if (chks == null || chks.isEmpty()) {
+            throw new AlertException("수정할 게시판을 선택하세요.", HttpStatus.BAD_REQUEST);
+        }
+
+        for (int chk : chks) {
+            String bid = utils.getParam("bid_" + chk);
+            Board board = boardRepository.findById(bid).orElse(null);
+            if (board == null) continue;
+
+            boolean active = Boolean.parseBoolean(utils.getParam("active_" + chk));
+            board.setActive(active);
+        }
+
+        boardRepository.flush();
     }
 }
