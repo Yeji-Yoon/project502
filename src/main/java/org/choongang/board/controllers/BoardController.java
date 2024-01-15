@@ -1,19 +1,26 @@
 package org.choongang.board.controllers;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.choongang.admin.config.service.ConfigInfoService;
 import org.choongang.board.entities.Board;
+import org.choongang.board.service.config.BoardConfigInfoService;
 import org.choongang.commons.ExceptionProcessor;
 import org.choongang.commons.Utils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequestMapping("/board")
 @RequiredArgsConstructor
 public class BoardController implements ExceptionProcessor {
-    private final ConfigInfoService configInfoService;
+    private final BoardConfigInfoService configInfoService;
 
     private final Utils utils;
 
@@ -52,7 +59,8 @@ public class BoardController implements ExceptionProcessor {
      * @return
      */
     @GetMapping("/write/{bid}")
-    public String write(@PathVariable("bid") String bid, Model model) {
+    public String write(@PathVariable("bid") String bid,
+                        @ModelAttribute RequestBoard form, Model model) {
         commonProcess(bid,"write",model);
         return utils.tpl("board/write");
     }
@@ -77,9 +85,23 @@ public class BoardController implements ExceptionProcessor {
      * @return
      */
     @PostMapping("/save")
-    public String save(Model model) {
+    public String save(@Valid RequestBoard form, Errors errors, Model model) {
+        String bid = form.getBid();
+        String mode = form.getMode();
+        commonProcess(bid, mode, model);
 
-        return null;
+        commonProcess(form.getBid(),form.getMode(),model);
+
+        if (errors.hasErrors()) {
+            return utils.tpl("board/" + mode);
+        }
+
+        Long seq = 0L; //임시 - 나중에 제거
+
+        String redirectURL = "/board/";
+        redirectURL += board.getLocationAfterWriting() == "view" ? "view/" + seq : "list/" + form.getBid();
+
+        return redirectURL;
     }
 
     /**
@@ -90,13 +112,50 @@ public class BoardController implements ExceptionProcessor {
      * @param model
      */
     private void commonProcess(String bid, String mode, Model model) {
+
+        mode = StringUtils.hasText(mode) ? mode : "list";
+
+        List<String> addCommonScript = new ArrayList<>();
+        List<String> addScript = new ArrayList<>();
+
+        List<String> addCommonCss = new ArrayList<>();
+        List<String> addCss = new ArrayList<>();
+
         /* 게시판 설정 처리 S */
-        if (board == null) {
-            board = configInfoService.get(bid);
-        }
+        board = configInfoService.get(bid);
+
+        //스킨별 css, js 추가
+        String skin = board.getSkin();
+        addCss.add("board/skin_" + skin);
+        addScript.add("board/skin_" + skin);
 
         model.addAttribute("board", board);
         /* 게시판 설정 처리 E */
+
+        String pageTitle = board.getBName(); //게시판 명이 기본 타이틀
+
+        if (mode.equals("write") || mode.equals("update")) { // 쓰기 또는 수정
+            if (board.isUseEditor()) { // 에디터 사용하는 경우
+                addCommonScript.add("ckeditor5/ckeditor");
+            }
+            //이미지또는 파일 첨부를 사용하는 경우
+            if (board.isUseUploadFile() || board.isUseUploadFile()) {
+                addCommonScript.add("fileManager");
+            }
+
+            addScript.add("board/form");
+
+            pageTitle += " ";
+            pageTitle += mode.equals("update") ? Utils.getMessage("글 수정","commons") : Utils.getMessage("글 쓰기","commons");
+
+        }
+
+
+
+        model.addAttribute("addCommonCss", addCommonCss);
+        model.addAttribute("addCss",addCss);
+        model.addAttribute("addCommonScript", addCommonScript);
+        model.addAttribute("addScript",addScript);
     }
 
     /**
@@ -106,7 +165,9 @@ public class BoardController implements ExceptionProcessor {
      * @param mode
      * @param model
      */
-    private void commonProcess(Long seq, String mode, Model model)
+    private void commonProcess(Long seq, String mode, Model model){
+
+    }
 }
 
 

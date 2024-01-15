@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.choongang.admin.menus.Menu;
 import org.choongang.admin.menus.MenuDetail;
 import org.choongang.board.entities.Board;
+import org.choongang.board.service.config.BoardConfigDeleteService;
 import org.choongang.board.service.config.BoardConfigInfoService;
 import org.choongang.board.service.config.BoardConfigSaveService;
 import org.choongang.commons.ExceptionProcessor;
@@ -26,7 +27,7 @@ public class BoardController implements ExceptionProcessor {
 
     private final BoardConfigSaveService configSaveService;
     private final BoardConfigInfoService configInfoService;
-    private final org.choongang.admin.config.service.ConfigDeleteService ConfigDeleteService;
+    private final BoardConfigDeleteService configDeleteService;
 
     private final BoardConfigValidator configValidator;
 
