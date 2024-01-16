@@ -26,6 +26,7 @@ spring:
     hibernate:
       ddlAuto: update
 
+
   # 타임리프 설정
   thymeleaf:
     cache: false
