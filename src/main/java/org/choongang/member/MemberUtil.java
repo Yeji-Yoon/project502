@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 public class MemberUtil {
     private final HttpSession session;
 
-    public boolean isAdmin() {
+    public boolean isAdmin() {//관리자만 허락
         if(isLogin()) {
             return getMember().getAuthorities()
                     .stream().map(Authorities::getAuthority)
