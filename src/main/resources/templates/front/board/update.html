@@ -7,15 +7,15 @@
         <th:block th:replace="~{front/board/skins/default/update::default}"></th:block>
     </th:block>
 
-    <th:block thLif="${board.skin =='gallery'}">
+    <th:block th:if="${board.skin =='gallery'}">
         <th:block th:replace="~{front/board/skins/gallery/update::gallery}"></th:block>
     </th:block>
 
-    <th:block thLif="${board.skin =='qna'}">
+    <th:block th:if="${board.skin =='qna'}">
         <th:block th:replace="~{front/board/skins/qna/update::qna}"></th:block>
     </th:block>
 
-    <th:block thLif="${board.skin =='review'}">
+    <th:block th:if="${board.skin =='review'}">
         <th:block th:replace="~{front/board/skins/review/update::review}"></th:block>
     </th:block>
 

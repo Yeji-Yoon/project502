@@ -112,14 +112,15 @@ public boolean isMobile() {
     }
 
     public String printThumb(long seq, int width, int height, String className) {//주로 타임리프내에서 사용
+        try {
+            String[] data = fileInfoService.getThumb(seq, width, height);
+            if (data != null) {
+                String cls = StringUtils.hasText(className) ? "class='" + className + "'" : "";
+                String image = String.format("<img src='%s'%s>", data[1], cls);
 
-        String[] data = fileInfoService.getThumb(seq,width,height);
-        if(data != null) {
-            String cls = StringUtils.hasText(className) ? "class='" + className + "'":"";
-            String image = String.format("<img src='%s'%s>",data[1], cls);
-
-            return image;
-        }
+                return image;
+            }
+        } catch (Exception e) {}
 
         return "";
 

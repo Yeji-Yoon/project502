@@ -1,16 +1,20 @@
 package org.choongang.admin.board.controllers;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.choongang.admin.menus.Menu;
 import org.choongang.admin.menus.MenuDetail;
 import org.choongang.board.entities.Board;
+import org.choongang.board.service.GuestPasswordCheckException;
 import org.choongang.board.service.config.BoardConfigDeleteService;
 import org.choongang.board.service.config.BoardConfigInfoService;
 import org.choongang.board.service.config.BoardConfigSaveService;
 import org.choongang.commons.ExceptionProcessor;
 import org.choongang.commons.ListData;
 import org.choongang.commons.Pagination;
+import org.choongang.commons.Utils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -33,11 +37,13 @@ public class BoardController implements ExceptionProcessor {
 
     @ModelAttribute("menuCode")
     public String getMenuCode() { // 주 메뉴 코드
+
         return "board";
     }
 
     @ModelAttribute("subMenus")
     public List<MenuDetail> getSubMenus() { // 서브 메뉴
+
         return Menu.getMenus("board");
     }
 
@@ -50,7 +56,7 @@ public class BoardController implements ExceptionProcessor {
     public String list(@ModelAttribute BoardSearch search, Model model) {
         commonProcess("list", model);
 
-        ListData<Board> data = configInfoService.getList(search);
+        ListData<Board> data = configInfoService.getList(search,true);
 
         List<Board> items = data.getItems();
         Pagination pagination = data.getPagination();
@@ -186,4 +192,5 @@ public class BoardController implements ExceptionProcessor {
         model.addAttribute("addCommonScript", addCommonScript);
         model.addAttribute("addScript", addScript);
     }
+
 }

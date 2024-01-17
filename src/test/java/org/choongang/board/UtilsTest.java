@@ -7,13 +7,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 public class UtilsTest {
+
     @Autowired
     private Utils utils;
 
     @Test
     void test1() {
-
-
+        String data = utils.confirmDelete();
+        System.out.println(data);
     }
 
 }

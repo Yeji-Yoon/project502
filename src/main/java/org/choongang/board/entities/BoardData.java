@@ -94,5 +94,5 @@ public class BoardData extends Base {//게시글 데이터
     private boolean showEditButton; //수정 버튼 노출 여부
 
     @Transient
-    private boolean showDeleteButton; //삭ㅈ 버튼 노출 여부
+    private boolean showDeleteButton; //삭제 버튼 노출 여부
 }
