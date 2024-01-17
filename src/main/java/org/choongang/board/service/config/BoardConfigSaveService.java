@@ -48,6 +48,7 @@ public class BoardConfigSaveService {//추가도 하지만 수정도 같이 함.
         board.setUseUploadImage(form.isUseUploadImage());
         board.setUseUploadFile(form.isUseUploadFile());
         board.setLocationAfterWriting(form.getLocationAfterWriting());
+        board.setShowListBelowView(form.isShowListBelowView());
         board.setSkin(form.getSkin());
         board.setCategory(form.getCategory());
 
