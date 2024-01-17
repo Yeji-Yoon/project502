@@ -12,7 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 
 @SpringBootTest
-@TestPropertySource(properties = "spring.profile.active=test")
+//@TestPropertySource(properties = "spring.profile.active=test")
 class ProjectApplicationTests {
 
 	@Autowired
@@ -21,9 +21,9 @@ class ProjectApplicationTests {
 	@Autowired
 	private AuthoritiesRepostory authoritiesRepostory;
 
-	@Test @Disabled//test 실행되지 않음.
+	@Test //@Disabled//test 실행되지 않음.
 	void contextLoads() {
-		Member member = memberRepository.findByUserId("user01").orElse(null);
+		Member member = memberRepository.findByUserId("user02").orElse(null);
 
 		Authorities authorities = new Authorities();
 		authorities.setMember(member);
