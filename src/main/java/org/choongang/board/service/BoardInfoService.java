@@ -10,11 +10,13 @@ import jakarta.persistence.EntityManager;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.choongang.admin.config.service.ConfigInfoService;
 import org.choongang.board.controllers.BoardDataSearch;
 import org.choongang.board.controllers.RequestBoard;
 import org.choongang.board.entities.*;
 import org.choongang.board.repositories.BoardDataRepository;
 import org.choongang.board.repositories.BoardViewRepository;
+import org.choongang.board.service.comment.CommentInfoService;
 import org.choongang.board.service.config.BoardConfigInfoService;
 import org.choongang.commons.ListData;
 import org.choongang.commons.Pagination;
@@ -38,6 +40,7 @@ public class BoardInfoService {
     private final BoardDataRepository boardDataRepository;
     private final BoardViewRepository boardViewRepository;
     private final BoardConfigInfoService configInfoService;
+    private final CommentInfoService commentInfoService;
 
     private final FileInfoService fileInfoService;
     private final HttpServletRequest request;
@@ -55,6 +58,10 @@ public class BoardInfoService {
         BoardData boardData = boardDataRepository.findById(seq).orElseThrow(BoardDataNotFoundException::new);
 
         addBoardData(boardData);
+
+        // 댓글 목록
+        List<CommentData> comments = commentInfoService.getList(seq);
+        boardData.setComments(comments);
 
         return boardData;
     }

@@ -23,6 +23,7 @@ public class MemberUtil {
 
 
     public boolean isLogin() {
+
         return getMember() != null;
     }
 
