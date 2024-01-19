@@ -55,23 +55,25 @@ public boolean isMobile() {
 
     public static String getMessage(String code, String type) {
         //메서드를 만들지 않아도 조회가능하게 static 사용
-        type = StringUtils.hasText(type) ?type: "validations";
+        type = StringUtils.hasText(type) ? type : "validations";
 
         ResourceBundle bundle = null;
-        if(type.equals("commons")) {
+        if (type.equals("commons")) {
             bundle = commonsBundle;
-        }else if(type.equals("errors")) {
+        } else if (type.equals("errors")) {
             bundle = errorsBundle;
-        }else {
-            bundle= validationsBundle;
+        } else {
+            bundle = validationsBundle;
         }
 
         return bundle.getString(code);
     }
-    public static String getMessage(String code) {
 
-        return getMessage(code,null);
+    public static String getMessage(String code) {
+        return getMessage(code, null);
     }
+
+
 
     /**
      * \n 또는 \r\n -> <br>
