@@ -36,6 +36,10 @@
         </div>
         <!--// post_info -->
         <!-- 다운로드 파일 보이기-->
+
+        <div th:if="*{editorView}" class="content" th:utext="*{content}"></div>
+        <div th:if="*{!editorView}" class="content" th:utext="*{@utils.nl2br(content)}"></div>
+
         <div class="content" th:utext="*{content}"></div>
 
         <ul th:if="*{attachFiles != null && !attachFiles.isEmpty()}" class="downloads">
