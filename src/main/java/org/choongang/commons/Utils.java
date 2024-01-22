@@ -55,23 +55,25 @@ public boolean isMobile() {
 
     public static String getMessage(String code, String type) {
         //메서드를 만들지 않아도 조회가능하게 static 사용
-        type = StringUtils.hasText(type) ?type: "validations";
+        type = StringUtils.hasText(type) ? type : "validations";
 
         ResourceBundle bundle = null;
-        if(type.equals("commons")) {
+        if (type.equals("commons")) {
             bundle = commonsBundle;
-        }else if(type.equals("errors")) {
+        } else if (type.equals("errors")) {
             bundle = errorsBundle;
-        }else {
-            bundle= validationsBundle;
+        } else {
+            bundle = validationsBundle;
         }
 
         return bundle.getString(code);
     }
-    public static String getMessage(String code) {
 
-        return getMessage(code,null);
+    public static String getMessage(String code) {
+        return getMessage(code, null);
     }
+
+
 
     /**
      * \n 또는 \r\n -> <br>
@@ -112,14 +114,15 @@ public boolean isMobile() {
     }
 
     public String printThumb(long seq, int width, int height, String className) {//주로 타임리프내에서 사용
+        try {
+            String[] data = fileInfoService.getThumb(seq, width, height);
+            if (data != null) {
+                String cls = StringUtils.hasText(className) ? "class='" + className + "'" : "";
+                String image = String.format("<img src='%s'%s>", data[1], cls);
 
-        String[] data = fileInfoService.getThumb(seq,width,height);
-        if(data != null) {
-            String cls = StringUtils.hasText(className) ? "class='" + className + "'":"";
-            String image = String.format("<img src='%s'%s>",data[1], cls);
-
-            return image;
-        }
+                return image;
+            }
+        } catch (Exception e) {}
 
         return "";
 
@@ -173,6 +176,17 @@ public boolean isMobile() {
         String ua = request.getHeader("User-Agent");
 
         return Objects.hash(ip, ua);
+    }
+
+    /**
+     * 삭제 버튼 클릭시 "정말 삭제 하시겠습니까?" comfirm 대화상자
+     *
+     * @return
+     */
+    public String confirmDelete() {
+        String message = Utils.getMessage("Confirm.delete.message","commons");
+
+        return String.format("return confirm('%s');",message);
     }
 }
 

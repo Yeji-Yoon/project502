@@ -19,7 +19,7 @@ import java.util.UUID;
 @Table(indexes = {
         @Index(name = "idx_boardData_basic",columnList ="notice DESC, createdAt DESC")
 })
-public class BoardData extends Base {
+public class BoardData extends Base implements AuthCheck {//게시글 데이터
     @Id @GeneratedValue
     private Long seq;
 
@@ -53,9 +53,12 @@ public class BoardData extends Base {
 
     private int viewCount; //조회수
 
+    private int commentCount; //댓글수
+
     @Column(length = 20)
     private String ip; //IP주소
 
+    @Column(length = 150)
     private String ua; //User_Agent : 브라우저 정보()
 
     private Long num1; //추가필드 : 정수//값이 없으면 null값으로 대체
@@ -80,4 +83,22 @@ public class BoardData extends Base {
     private List<FileInfo> editorFiles; // 에디터 첨부 파일
     @Transient
     private List<FileInfo> attachFiles; // 첨부 파일
+
+    @Transient
+    private boolean editable; // 수정 가능 여부
+
+    @Transient
+    private boolean deletable;//삭제 가능 여부
+
+    @Transient
+    private boolean mine; //게시글 소유자
+
+    @Transient
+    private boolean showEditButton; //수정 버튼 노출 여부
+
+    @Transient
+    private boolean showDeleteButton; //삭제 버튼 노출 여부
+
+    @Transient
+    private List<CommentData> comments; // 댓글 목록
 }
