@@ -10,7 +10,6 @@ import jakarta.persistence.EntityManager;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import org.choongang.admin.config.service.ConfigInfoService;
 import org.choongang.board.controllers.BoardDataSearch;
 import org.choongang.board.controllers.RequestBoard;
 import org.choongang.board.entities.*;
@@ -23,13 +22,13 @@ import org.choongang.commons.Pagination;
 import org.choongang.commons.Utils;
 import org.choongang.file.entities.FileInfo;
 import org.choongang.file.service.FileInfoService;
+import org.choongang.member.Authority;
 import org.choongang.member.MemberUtil;
 import org.choongang.member.entities.Member;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -39,6 +38,7 @@ public class BoardInfoService {
     private final EntityManager em;
     private final BoardDataRepository boardDataRepository;
     private final BoardViewRepository boardViewRepository;
+
     private final BoardConfigInfoService configInfoService;
     private final CommentInfoService commentInfoService;
 
