@@ -12,6 +12,7 @@ import org.choongang.board.service.config.BoardConfigInfoService;
 import org.choongang.commons.ExceptionProcessor;
 import org.choongang.commons.ListData;
 import org.choongang.commons.Utils;
+import org.choongang.commons.exceptions.UnAuthorizedException;
 import org.choongang.file.entities.FileInfo;
 import org.choongang.file.service.FileInfoService;
 import org.choongang.member.MemberUtil;
@@ -32,9 +33,6 @@ public class BoardController extends AbstractBoardController {
         super(configInfoService, fileInfoService, boardFormValidator, boardSaveService, boardInfoService, boardDeleteService, boardAuthService, memberUtil, utils);
     }
 
-
-    private Board board; // 게시판 설정
-    private BoardData boardData; //게시글
 
     /**
      * 게시판 목록
@@ -131,6 +129,9 @@ public class BoardController extends AbstractBoardController {
     public String reply(@PathVariable("seq") Long parentSeq,
                         @ModelAttribute RequestBoard form, Model model) {
         commonProcess(parentSeq, "reply", model);
+        if (!board.isUseReply()) { // 답글 사용 불가
+            throw new UnAuthorizedException();
+        }
 
         String content = boardData.getContent();
         content = String.format("<br><br><br><br><br>===================================================<br>%s", content);

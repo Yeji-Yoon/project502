@@ -32,6 +32,7 @@ public class CommentController implements ExceptionProcessor {
 
     /**
      * 댓글 저장, 수정 처리
+     *
      * @param model
      * @return
      */
@@ -54,6 +55,7 @@ public class CommentController implements ExceptionProcessor {
 
         return "common/_execute_script";
     }
+
 
 
     @GetMapping("/delete/{seq}")

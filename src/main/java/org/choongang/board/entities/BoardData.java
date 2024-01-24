@@ -18,7 +18,7 @@ import java.util.UUID;
 @Entity
 @NoArgsConstructor @AllArgsConstructor
 @Table(indexes = {
-        @Index(name = "idx_boardData_basic",columnList ="notice DESC, createdAt DESC")
+        @Index(name = "idx_boardData_basic",columnList ="notice DESC, listOrder DESC, listOrder2 ASC, createdAt DESC")
 })
 public class BoardData extends Base implements AuthCheck {//게시글 데이터
     @Id @GeneratedValue
@@ -62,6 +62,11 @@ public class BoardData extends Base implements AuthCheck {//게시글 데이터
 
     private Long listOrder; // 1차 정렬 순서 - 내림차순
 
+    @Column(length = 60)
+    private String listOrder2 = "R"; //답글 2차 정렬 -> 오름차순
+
+    private int depth;//답글 들여쓰기 정도
+
     @Column(length = 20)
     private String ip; //IP주소
 
@@ -96,6 +101,9 @@ public class BoardData extends Base implements AuthCheck {//게시글 데이터
 
     @Transient
     private boolean deletable;//삭제 가능 여부
+
+    @Transient
+    private boolean commentable; // 댓글 작성 가능 여부
 
     @Transient
     private boolean mine; //게시글 소유자
