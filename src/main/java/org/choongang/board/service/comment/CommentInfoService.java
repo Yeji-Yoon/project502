@@ -96,12 +96,12 @@ public class CommentInfoService {
         }
 
     //비회원 -> 비회원 비밀 번호가 확인된 경우 삭제, 수정 가능
-    //비회원 비밀 번호 인증 여부 세션에 있는 guest_confirmed_ 게시글 번호 true -> 인증
+    //비회원 비밀 번호 인증 여부 세션에 있는 guest_comment_confirmed_ 게시글 번호 true -> 인증
     HttpSession session = request.getSession();
-    String key = "guest_confirmed_" + data.getSeq();
+    String key = "guest_comment_confirmed_" + data.getSeq();
     Boolean guestConfirmed = (Boolean) session.getAttribute(key); //비밀번호를 검증
 
-        if(_member ==null&&guestConfirmed !=null&&guestConfirmed){
+        if(_member ==null && guestConfirmed !=null && guestConfirmed){
         editable = true;
         deletable = true;
         mine = true;

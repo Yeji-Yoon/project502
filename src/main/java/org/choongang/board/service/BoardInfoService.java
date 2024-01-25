@@ -96,7 +96,10 @@ public class BoardInfoService {
      */
     public ListData<BoardData> getList(String bid, BoardDataSearch search) {
 
-        Board board = configInfoService.get(bid);
+        Board board = StringUtils.hasText(bid) ? configInfoService.get(bid) : new Board();
+
+
+        board = configInfoService.get(bid);
 
         int page = Utils.onlyPositiveNumber(search.getPage(), 1);
         int limit = Utils.onlyPositiveNumber(search.getLimit(), board.getRowsPerPage());
@@ -104,9 +107,9 @@ public class BoardInfoService {
 
         QBoardData boardData = QBoardData.boardData;
         BooleanBuilder andBuilder = new BooleanBuilder();
-
-        andBuilder.and(boardData.board.bid.eq(bid)); // 게시판 ID
-
+        if (StringUtils.hasText(bid)){
+            andBuilder.and(boardData.board.bid.eq(bid)); // 게시판 ID
+        }
         /* 검색 조건 처리 S */
 
         String sopt = search.getSopt();
@@ -173,6 +176,8 @@ public class BoardInfoService {
                 .where(andBuilder)
                 .orderBy(
                         new OrderSpecifier(Order.DESC, pathBuilder.get("notice")),
+                        new OrderSpecifier(Order.DESC, pathBuilder.get("listOrder")),
+                        new OrderSpecifier(Order.ASC, pathBuilder.get("listOrder2")),
                         new OrderSpecifier(Order.DESC, pathBuilder.get("createdAt"))
                 )
                 .fetch();
@@ -187,6 +192,9 @@ public class BoardInfoService {
         return new ListData<>(items, pagination);
     }
 
+    public ListData<BoardData> getList(BoardDataSearch search) {
+        return getList(null, search);
+    }
     /**
      * 최신 게시글
      * @param bid : 게시판 아이디
@@ -263,6 +271,28 @@ public class BoardInfoService {
         boardData.setShowDeleteButton(showDeleteButton);
 
         /* 수정, 삭제 권한 정보 E */
+
+        /* 댓글 작성 권한 처리 S */
+        boolean commentable = false;
+        Board board = boardData.getBoard();
+        Authority commentAccessType = board.getCommentAccessType();
+        // 관리자이거나 전체 작성 가능이면
+        if (commentAccessType == Authority.ALL) {
+            commentable = true;
+        }
+
+        if (memberUtil.isLogin()) {
+            if (commentAccessType == Authority.USER) {
+                commentable = true;
+            }
+
+            if (commentAccessType == Authority.ADMIN && memberUtil.isAdmin()) {
+                commentable = true;
+            }
+        }
+
+        boardData.setCommentable(commentable);
+        /* 댓글 작성 권한 처리 E */
     }
 
 
