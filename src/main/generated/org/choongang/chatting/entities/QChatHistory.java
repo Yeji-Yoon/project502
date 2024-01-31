@@ -24,6 +24,8 @@ public class QChatHistory extends EntityPathBase<ChatHistory> {
 
     public final org.choongang.commons.entities.QBase _super = new org.choongang.commons.entities.QBase(this);
 
+    public final QChatRoom chatRoom;
+
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
 
@@ -56,6 +58,7 @@ public class QChatHistory extends EntityPathBase<ChatHistory> {
 
     public QChatHistory(Class<? extends ChatHistory> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
+        this.chatRoom = inits.isInitialized("chatRoom") ? new QChatRoom(forProperty("chatRoom"), inits.get("chatRoom")) : null;
         this.member = inits.isInitialized("member") ? new org.choongang.member.entities.QMember(forProperty("member")) : null;
     }
 

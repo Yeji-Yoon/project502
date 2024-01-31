@@ -15,16 +15,16 @@ import org.choongang.member.entities.Member;
 @AllArgsConstructor
 public class ChatRoom extends Base {
     @Id
-    @Column(length = 65)
-    private String roodId;
+    @Column(length=65)
+    private String roomId;
 
-    @Column(length = 45)
+    @Column(length=45, nullable = false)
     private String roomNm;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "memberSeq")
+    @JoinColumn(name="memberSeq")
     private Member member;
 
-    private int capacity = 2;//방 인원수
+    private int capacity = 2; // 방 인원수
 
 }

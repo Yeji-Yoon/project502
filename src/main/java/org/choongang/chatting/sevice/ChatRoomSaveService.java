@@ -18,7 +18,7 @@ public class ChatRoomSaveService {
 
         ChatRoom room = chatRoomRepository.findById(roomId)
                 .orElseGet(() -> ChatRoom.builder()
-                        //.roomId(roomId)
+                        .roomId(roomId)
                         .member(memberUtil.getMember())
                         .build());
 

@@ -21,7 +21,8 @@ public class ChatController implements ExceptionProcessor {
 
     @GetMapping
     public String index(Model model) {
-        commonProcess("main",model);
+        commonProcess("main", model);
+
         return utils.tpl("chat/index");
     }
 

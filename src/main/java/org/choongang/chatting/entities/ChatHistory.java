@@ -14,17 +14,20 @@ import org.choongang.member.entities.Member;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ChatHistory extends Base {
-
     @Id @GeneratedValue
     private Long seq;
 
-    @ManyToOne (fetch = FetchType.LAZY)
-    @JoinColumn(name = "memberSeq")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="roomId")
+    private ChatRoom chatRoom;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="memberSeq")
     private Member member;
 
-    @Column(length = 40, nullable = false)
+    @Column(length=40, nullable = false)
     private String nickName;
 
-    @Column(length = 50, nullable = false)
+    @Column(length=500, nullable = false)
     private String message;
 }

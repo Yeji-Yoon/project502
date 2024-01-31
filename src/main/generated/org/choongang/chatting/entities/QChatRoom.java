@@ -34,7 +34,7 @@ public class QChatRoom extends EntityPathBase<ChatRoom> {
     //inherited
     public final DateTimePath<java.time.LocalDateTime> modifiedAt = _super.modifiedAt;
 
-    public final StringPath roodId = createString("roodId");
+    public final StringPath roomId = createString("roomId");
 
     public final StringPath roomNm = createString("roomNm");
 
